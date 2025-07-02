@@ -143,4 +143,77 @@ const enum SeatAllocatedEnum {
 
 const eSeat = SeatAllocatedEnum.LOWER;
 
+//////////////////////////////////////////////////////
+/////Classes in typescript
+
+class Animal {
+  name: string;
+  breed: string;
+  constructor(name: string, breed: string) {
+    this.name = name;
+    this.breed = breed;
+  }
+}
+
 export {};
+
+///////////////////////////////////////////////
+///GENERICS
+
+// this means whatever you pass it will return the same data type
+function identityOne<Type>(val: Type): Type {
+  return val;
+}
+
+function identityTwo<T>(val: T): T {
+  return val;
+}
+
+function identityThree<H>(val: H): H {
+  return val;
+}
+
+// we can also share Interface
+interface forGeneric {
+  name: string;
+  mobile: number;
+}
+
+function identityfour<forGeneric>(val: forGeneric): forGeneric {
+  return val;
+}
+identityfour({ name: 'Ebi', mobile: 9999 });
+
+///////////////////////////////////////////////////
+///Type narrowing
+
+//IN OPERATOR NARROWING
+interface AdminAcc {
+  name: string;
+  email: string;
+  isAdmin: boolean;
+}
+
+interface UserAcc {
+  name: string;
+  email: string;
+}
+
+function CheckisAdmin(account: UserAcc | AdminAcc) {
+  if ('isAdmin' in account) {
+    return account.isAdmin;
+  }
+  return false;
+}
+
+////Instance of
+
+function checkDate(str: Date | string) {
+  if (str instanceof Date) {
+    return str.toUTCString();
+  }
+  return str.toLocaleLowerCase();
+}
+
+const today = new Date();
+console.log(checkDate(today));
