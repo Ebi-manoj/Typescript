@@ -1,34 +1,25 @@
-var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
-    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
-        if (ar || !(i in from)) {
-            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
-            ar[i] = from[i];
-        }
-    }
-    return to.concat(ar || Array.prototype.slice.call(from));
-};
+"use strict";
 // 1. Accept a char input from the user and display it on the console.
 function question1() {
-    var char = prompt('Enter a Number');
+    const char = prompt('Enter a Number');
     if (char)
-        console.log("You entered ".concat(char));
+        console.log(`You entered ${char}`);
     else
         prompt('You must enter a Number');
 }
 // question1();
 // 2. Accept two inputs from the user and output their sum.
-var Sum = /** @class */ (function () {
-    function Sum(num1, num2) {
+class Sum {
+    constructor(num1, num2) {
         this.num1 = num1;
         this.num2 = num2;
         console.log(num1 + num2);
     }
-    return Sum;
-}());
+}
 // new Sum(2, 4);
 //	3. Write a program to find the simple interest.
 function simpleInterest(p, i, y) {
-    var simpleInterest = (p * i * y) / 100;
+    const simpleInterest = (p * i * y) / 100;
     return simpleInterest;
 }
 // console.log(simpleInterest(5, 3, 5));
@@ -53,7 +44,7 @@ function checkGrade(mark) {
 }
 // 6. Using the ‘switch case’ write a program to accept an input number from the user and output the day as follows.
 function outputDay(num) {
-    var day;
+    let day;
     switch (num) {
         case 1:
             day = 'Sunday';
@@ -68,15 +59,15 @@ function outputDay(num) {
 }
 // 7. Write a program to print the multiplication table of given numbers.
 function multiplication(num) {
-    for (var i = 1; i <= 10; i++) {
-        console.log("".concat(i, " * ").concat(num, " = ").concat(i * num));
+    for (let i = 1; i <= 10; i++) {
+        console.log(`${i} * ${num} = ${i * num}`);
     }
 }
 // multiplication(5);
 // 8. Write a program to find the sum of all the odd numbers for a given limit
 function sumOfoddNumber(limit) {
-    var sum = 0;
-    for (var i = 0; i <= limit; i++) {
+    let sum = 0;
+    for (let i = 0; i <= limit; i++) {
         if (i % 2 == 1)
             sum += i;
     }
@@ -89,31 +80,30 @@ function sumOfoddNumber(limit) {
 // 1 2 3 4
 // 1 2 3 4 5
 function printPattern(num) {
-    var output = [];
-    for (var i = 1; i <= num; i++) {
-        for (var j = 1; j <= i; j++) {
+    let output = [];
+    for (let i = 1; i <= num; i++) {
+        for (let j = 1; j <= i; j++) {
             output.push(j);
         }
-        console.log.apply(console, output);
+        console.log(...output);
         output = [];
     }
 }
 // printPattern(5);
 // 10. Write a program to interchange the values of two arrays.
 function swapArray(arr, arr2) {
-    var temp = __spreadArray([], arr, true);
+    const temp = [...arr];
     arr.length = 0;
-    arr.push.apply(arr, arr2);
+    arr.push(...arr2);
     arr2.length = 0;
-    arr2.push.apply(arr2, temp);
+    arr2.push(...temp);
 }
-var arr = [1, 2, 3];
-var arr2 = [8, 9, 0];
+const arr = [1, 2, 3];
+const arr2 = [8, 9, 0];
 // 11. Write a program to find the number of even numbers in an array
 function findEven(arr) {
-    var count = 0;
-    for (var _i = 0, arr_1 = arr; _i < arr_1.length; _i++) {
-        var n = arr_1[_i];
+    let count = 0;
+    for (const n of arr) {
         if (n % 2 == 0)
             count++;
     }
@@ -124,10 +114,10 @@ function sort(nums) {
     if (nums.length <= 1) {
         return nums;
     }
-    var p = nums[nums.length - 1];
-    var left = [];
-    var right = [];
-    for (var i = 0; i < nums.length - 1; i++) {
+    const p = nums[nums.length - 1];
+    const left = [];
+    const right = [];
+    for (let i = 0; i < nums.length - 1; i++) {
         if (nums[i] < p) {
             left.push(nums[i]);
         }
@@ -135,12 +125,12 @@ function sort(nums) {
             right.push(nums[i]);
         }
     }
-    return __spreadArray(__spreadArray(__spreadArray([], sort(right), true), [p], false), sort(left), true);
+    return [...sort(right), p, ...sort(left)];
 }
 // 13. Write a program to identify whether a string is a palindrome or not
 function checkPalindrome(str) {
-    var start = 0;
-    var end = str.length;
+    let start = 0;
+    let end = str.length;
     while (start < end) {
         if (str[start] !== str[end])
             return false;
@@ -152,10 +142,10 @@ function checkPalindrome(str) {
 // console.log(checkPalindrome('malayalam'));
 // 14. Write a program to add to two dimensional arrays
 function add2DArray(arr1, arr2) {
-    var result = [];
-    for (var i = 0; i < arr1.length; i++) {
-        var sum = [];
-        for (var j = 0; j < arr1[i].length; j++) {
+    const result = [];
+    for (let i = 0; i < arr1.length; i++) {
+        let sum = [];
+        for (let j = 0; j < arr1[i].length; j++) {
             sum[j] = arr1[i][j] + arr2[i][j];
         }
         result.push(sum);
@@ -175,15 +165,72 @@ function add2DArray(arr1, arr2) {
 // console.log(add2DArray(arr1, arr22));
 // 15. Write a program to accept an array and display it on the console using functionss
 function mainFor15(get, display) {
-    var nums = get();
+    const nums = get();
     display(nums);
 }
 function getArray() {
-    var input = prompt('Enter number');
-    var nums = input.split(' ').map(function (num) { return +num; });
+    const input = prompt('Enter number');
+    const nums = input.split(' ').map(num => +num);
     return nums;
 }
 function displayArray(nums) {
-    console.log.apply(console, nums);
+    console.log(...nums);
 }
 // mainFor15(getArray, displayArray);
+// 17. Write a menu driven program to do the basic mathematical operations such as addition, subtraction,
+// multiplication and division
+class Menudriven {
+    constructor() {
+        this.nums = [];
+        this.initial();
+        this.operation();
+    }
+    initial() {
+        const input = Number(prompt('Enter firstNumber'));
+        const input2 = Number(prompt('Enter SecondNumber'));
+        if (input && input2) {
+            this.nums.push(input);
+            this.nums.push(input2);
+        }
+        else {
+            const confirm = prompt('No two number found! Type Y for try again');
+            if (confirm.toLowerCase() == 'y')
+                this.initial();
+        }
+    }
+    operation() {
+        const input = prompt('What operation do you want?\n 1.Multiply \n 2.Addition \n 3.Subtraction \n 4.Division');
+        switch (input) {
+            case '1':
+                console.log(this.multiply());
+                break;
+            case '2':
+                console.log(this.addition());
+                break;
+            case '3':
+                console.log(this.subtraction());
+                break;
+            case '4':
+                console.log(this.subtraction());
+                break;
+            default:
+                const input = prompt('Enter a valid option,Y for try again');
+                if (input.toLocaleLowerCase() == 'y')
+                    this.operation();
+        }
+    }
+    multiply() {
+        return this.nums.reduce((acc, curr) => acc * curr, 1);
+    }
+    addition() {
+        return this.nums.reduce((acc, curr) => acc + curr, 0);
+    }
+    subtraction() {
+        return this.nums.reduce((acc, curr) => acc - curr, 0);
+    }
+    division() {
+        return this.nums.reduce((acc, curr) => acc / curr, 0);
+    }
+}
+// new Menudriven();
+// 24. Write a menu driven program to calculate the area of a given object.

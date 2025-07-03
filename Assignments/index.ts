@@ -201,3 +201,66 @@ function displayArray(nums: number[]) {
   console.log(...nums);
 }
 // mainFor15(getArray, displayArray);
+
+// 17. Write a menu driven program to do the basic mathematical operations such as addition, subtraction,
+// multiplication and division
+
+class Menudriven {
+  nums: number[] = [];
+  constructor() {
+    this.initial();
+    this.operation();
+  }
+
+  initial() {
+    const input = Number(prompt('Enter firstNumber'));
+    const input2 = Number(prompt('Enter SecondNumber'));
+
+    if (input && input2) {
+      this.nums.push(input);
+      this.nums.push(input2);
+    } else {
+      const confirm = prompt('No two number found! Type Y for try again');
+      if (confirm.toLowerCase() == 'y') this.initial();
+    }
+  }
+
+  operation() {
+    const input = prompt(
+      'What operation do you want?\n 1.Multiply \n 2.Addition \n 3.Subtraction \n 4.Division'
+    );
+    switch (input) {
+      case '1':
+        console.log(this.multiply());
+        break;
+      case '2':
+        console.log(this.addition());
+        break;
+      case '3':
+        console.log(this.subtraction());
+        break;
+      case '4':
+        console.log(this.subtraction());
+
+        break;
+      default:
+        const input = prompt('Enter a valid option,Y for try again');
+        if (input.toLocaleLowerCase() == 'y') this.operation();
+    }
+  }
+  multiply(): number {
+    return this.nums.reduce((acc, curr) => acc * curr, 1);
+  }
+  addition(): number {
+    return this.nums.reduce((acc, curr) => acc + curr, 0);
+  }
+  subtraction(): number {
+    return this.nums.reduce((acc, curr) => acc - curr, 0);
+  }
+  division(): number {
+    return this.nums.reduce((acc, curr) => acc / curr, 0);
+  }
+}
+// new Menudriven();
+
+// 24. Write a menu driven program to calculate the area of a given object.
