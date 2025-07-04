@@ -37,7 +37,7 @@ class Admin extends User {
 
     if (!movieName || !movieName.length || !allocatedSeat) {
       return this.retryFunctionality(
-        () => () => this.Addmovie(),
+        () => this.Addmovie(),
         'Invalid Movie name for adding'
       );
     }
@@ -79,7 +79,7 @@ class Customers extends User {
     let seatInput: string | null = prompt('Enter the number of seats');
     if (!seatInput || isNaN(Number(seatInput))) {
       return this.retryFunctionality(
-        () => this.Bookmovie,
+        () => this.Bookmovie(),
         'Invalid number of seats'
       );
     }

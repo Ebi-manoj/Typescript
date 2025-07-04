@@ -32,7 +32,7 @@ class Admin extends User {
         const allocatedSeat = Number(prompt('Enter the allocated seat'));
         console.log('hai');
         if (!movieName || !movieName.length || !allocatedSeat) {
-            return this.retryFunctionality(() => () => this.Addmovie(), 'Invalid Movie name for adding');
+            return this.retryFunctionality(() => this.Addmovie(), 'Invalid Movie name for adding');
         }
         const movie = {
             name: movieName,
@@ -63,7 +63,7 @@ class Customers extends User {
         }
         let seatInput = prompt('Enter the number of seats');
         if (!seatInput || isNaN(Number(seatInput))) {
-            return this.retryFunctionality(() => this.Bookmovie, 'Invalid number of seats');
+            return this.retryFunctionality(() => this.Bookmovie(), 'Invalid number of seats');
         }
         let numberOfSeat = Number(seatInput);
         const booked = [];
