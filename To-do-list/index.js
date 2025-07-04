@@ -4,6 +4,8 @@
 const taskInput = document.getElementById('task-input');
 const addBtn = document.getElementById('add-btn');
 const contentBox = document.querySelector('.content-items');
+let checkBoxes = document.querySelectorAll('.check-box');
+let closeBtn = document.querySelectorAll('.close-btn');
 let tasks = [];
 function generateId() {
     return Date.now();
@@ -21,6 +23,12 @@ function showError() {
 function saveToStorage() {
     localStorage.setItem('TASKS', JSON.stringify(tasks));
 }
+function loadBtn() {
+    checkBoxes = document.querySelectorAll('.check-box');
+    closeBtn = document.querySelectorAll('.close-btn');
+    checkBoxes.forEach(check => check.addEventListener('click', e => toggleCheckBox(e)));
+    closeBtn.forEach(check => check.addEventListener('click', e => deleteTask(e)));
+}
 function loadTasks() {
     const taskArray = localStorage.getItem('TASKS');
     if (!taskArray)
@@ -34,7 +42,7 @@ function display(task) {
             <input class="check-box" ${task.completed ? 'checked' : ''} type="checkbox" data-id="${task.id}" />
             <p class=${task.completed ? 'checked-task' : ''}>${task.task}</p>
           </div>
-          <button class="close-btn">X</button>
+          <button data-id="${task.id}" class="close-btn">X</button>
         </li>`;
     contentBox.insertAdjacentHTML('beforeend', htmlContent);
 }
@@ -49,6 +57,7 @@ function addTask() {
     tasks.push(todo);
     saveToStorage();
     display(todo);
+    loadBtn();
     taskInput.value = '';
 }
 function toggleCheckBox(e) {
@@ -68,12 +77,19 @@ function toggleCheckBox(e) {
     pTag?.classList.toggle('checked-task');
     saveToStorage();
 }
+function deleteTask(e) {
+    const target = e.target;
+    const id = Number(target.dataset.id);
+    console.log(id);
+    const item = target.closest('.item');
+    item?.remove();
+    tasks = tasks.filter(t => t.id !== id);
+    saveToStorage();
+}
 //////////////////////////////////////////////////////
 ////INITIALIZING
 document.addEventListener('DOMContentLoaded', () => {
     loadTasks();
+    loadBtn();
     addBtn.addEventListener('click', addTask);
-    const checkBoxes = document.querySelectorAll('.check-box');
-    console.log(checkBoxes);
-    checkBoxes.forEach(check => check.addEventListener('click', e => toggleCheckBox(e)));
 });

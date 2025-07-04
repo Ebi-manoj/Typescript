@@ -4,7 +4,13 @@
 const taskInput = document.getElementById('task-input') as HTMLInputElement;
 const addBtn = document.getElementById('add-btn') as HTMLButtonElement;
 const contentBox = document.querySelector('.content-items') as HTMLUListElement;
+let checkBoxes = document.querySelectorAll(
+  '.check-box'
+) as NodeListOf<HTMLInputElement>;
 
+let closeBtn = document.querySelectorAll(
+  '.close-btn'
+) as NodeListOf<HTMLInputElement>;
 //////////////////////////////////////////////////
 ////Utitlites
 type Todo = {
@@ -35,6 +41,22 @@ function saveToStorage() {
   localStorage.setItem('TASKS', JSON.stringify(tasks));
 }
 
+function loadBtn() {
+  checkBoxes = document.querySelectorAll(
+    '.check-box'
+  ) as NodeListOf<HTMLInputElement>;
+
+  closeBtn = document.querySelectorAll(
+    '.close-btn'
+  ) as NodeListOf<HTMLInputElement>;
+  checkBoxes.forEach(check =>
+    check.addEventListener('click', e => toggleCheckBox(e))
+  );
+  closeBtn.forEach(check =>
+    check.addEventListener('click', e => deleteTask(e))
+  );
+}
+
 function loadTasks() {
   const taskArray = localStorage.getItem('TASKS');
   if (!taskArray) return;
@@ -50,7 +72,7 @@ function display(task: Todo) {
             } type="checkbox" data-id="${task.id}" />
             <p class=${task.completed ? 'checked-task' : ''}>${task.task}</p>
           </div>
-          <button class="close-btn">X</button>
+          <button data-id="${task.id}" class="close-btn">X</button>
         </li>`;
   contentBox.insertAdjacentHTML('beforeend', htmlContent);
 }
@@ -66,6 +88,7 @@ function addTask() {
   tasks.push(todo);
   saveToStorage();
   display(todo);
+  loadBtn();
   taskInput.value = '';
 }
 function toggleCheckBox(e: MouseEvent) {
@@ -84,18 +107,21 @@ function toggleCheckBox(e: MouseEvent) {
   pTag?.classList.toggle('checked-task');
   saveToStorage();
 }
+function deleteTask(e: MouseEvent) {
+  const target = e.target as HTMLElement;
+  const id: number = Number(target.dataset.id);
+  console.log(id);
+
+  const item = target.closest('.item');
+  item?.remove();
+  tasks = tasks.filter(t => t.id !== id);
+  saveToStorage();
+}
 //////////////////////////////////////////////////////
 ////INITIALIZING
 
 document.addEventListener('DOMContentLoaded', () => {
   loadTasks();
-
+  loadBtn();
   addBtn.addEventListener('click', addTask);
-  const checkBoxes = document.querySelectorAll(
-    '.check-box'
-  ) as NodeListOf<HTMLInputElement>;
-  console.log(checkBoxes);
-  checkBoxes.forEach(check =>
-    check.addEventListener('click', e => toggleCheckBox(e))
-  );
 });
