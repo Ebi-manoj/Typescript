@@ -1,9 +1,10 @@
+"use strict";
 ////////////////////////////////////////////////////////////////////////////
 //////////HTML ELEMENTS
-var taskInput = document.getElementById('task-input');
-var addBtn = document.getElementById('add-btn');
-var contentBox = document.querySelector('.content-items');
-var tasks = [];
+const taskInput = document.getElementById('task-input');
+const addBtn = document.getElementById('add-btn');
+const contentBox = document.querySelector('.content-items');
+let tasks = [];
 function generateId() {
     return Date.now();
 }
@@ -21,31 +22,58 @@ function saveToStorage() {
     localStorage.setItem('TASKS', JSON.stringify(tasks));
 }
 function loadTasks() {
-    var taskArray = localStorage.getItem('TASKS');
+    const taskArray = localStorage.getItem('TASKS');
     if (!taskArray)
         return;
     tasks = JSON.parse(taskArray);
-    tasks.forEach(function (element) { return display(element); });
+    tasks.forEach((element) => display(element));
 }
 function display(task) {
-    var htmlContent = "<li class=\"item\">\n          <div class=\"left\">\n            <input type=\"checkbox\" />\n            <p>".concat(task.task, "</p>\n          </div>\n          <button class=\"close-btn\">X</button>\n        </li>");
+    const htmlContent = `<li class="item">
+          <div class="left">
+            <input class="check-box" ${task.completed ? 'checked' : ''} type="checkbox" data-id="${task.id}" />
+            <p class=${task.completed ? 'checked-task' : ''}>${task.task}</p>
+          </div>
+          <button class="close-btn">X</button>
+        </li>`;
     contentBox.insertAdjacentHTML('beforeend', htmlContent);
 }
+function addTask() {
+    taskInput.style.borderColor = '#4cb2fc';
+    const task = taskInput?.value;
+    if (task.length < 3) {
+        showError();
+        return;
+    }
+    const todo = createTodo(task);
+    tasks.push(todo);
+    saveToStorage();
+    display(todo);
+    taskInput.value = '';
+}
+function toggleCheckBox(e) {
+    if (e.target == null)
+        return;
+    const target = e.target;
+    if (!target.dataset.id)
+        return;
+    const id = Number(target.dataset.id);
+    const index = tasks.findIndex(task => task.id == id);
+    const task = tasks[index];
+    task.completed = !task.completed;
+    console.log(target);
+    const item = target.closest('.item');
+    const pTag = item?.querySelector('p');
+    console.log(pTag);
+    pTag?.classList.toggle('checked-task');
+    saveToStorage();
+}
 //////////////////////////////////////////////////////
-////FUNCTIONALITY
-document.addEventListener('DOMContentLoaded', function () {
+////INITIALIZING
+document.addEventListener('DOMContentLoaded', () => {
     loadTasks();
-    addBtn.addEventListener('click', function (e) {
-        taskInput.style.borderColor = '#4cb2fc';
-        var task = taskInput === null || taskInput === void 0 ? void 0 : taskInput.value;
-        if (task.length < 3) {
-            showError();
-            return;
-        }
-        var todo = createTodo(task);
-        tasks.push(todo);
-        saveToStorage();
-        display(todo);
-        taskInput.value = '';
-    });
+    addBtn.addEventListener('click', addTask);
+    const checkBoxes = document.querySelectorAll('.check-box');
+    console.log(checkBoxes);
+    checkBoxes.forEach(check => check.addEventListener('click', e => toggleCheckBox(e)));
 });

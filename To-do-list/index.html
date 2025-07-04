@@ -104,6 +104,9 @@
       text-overflow: ellipsis;
       margin-right: 5px;
     }
+    .checked-task {
+      text-decoration: line-through;
+    }
   </style>
   <body>
     <div class="wrapper">
@@ -117,13 +120,13 @@
         <button id="add-btn">+</button>
       </div>
       <ul class="content-items">
-        <!-- <li class="item">
+        <li class="item">
           <div class="left">
-            <input type="checkbox" />
-            <p>This is a dummy</p>
+            <input class="check-box" checked type="checkbox" />
+            <p class="checked-task">This is a dummy</p>
           </div>
           <button class="close-btn">X</button>
-        </li> -->
+        </li>
       </ul>
     </div>
     <p class="watermark">Crafted by Ebi Manoj With💝</p>
